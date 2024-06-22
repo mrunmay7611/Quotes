@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quotes</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css" integrity="sha512-BnbUDfEUfV0Slx6TunuB042k9tuKe3xrD6q4mg5Ed72LTgzDIcLPxg6yI2gcMFRyomt+yJJxE+zJwNmxki6/RA==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="style.css">
+    <style>
+        
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url("./img/bg.jpg");
+        }
+        .container {
+           
+            max-width: 500px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: burlywood;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .inner {
+            
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+        .box {
+           
+            background-color:#e6c4a1;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            height: 300px;
+            width: 300px;
+        }
+        .text {
+            text-align: center;
+            padding-top: 40px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+        .start-quote {
+            font-size: 24px;
+            color: #666;
+            padding-right: 290px;
+        }
+        #quotes {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+        #author {
+            font-size: 16px;
+            color: #666;
+        }
+        .button {
+            padding-top: 50px;
+            display: block;
+            margin-top: 20px;
+        }
+        #newq {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width:300px;
+        }
+        #newq:hover {
+            background-color: #3e8e41;
+        }
+    </style>
+</head>
+<body>
+    <!-- <button id="newq">New Quotes</button> -->
+    <div class="container">
+        <div class="inner">
+            <div class="box">
+               <div class="text">
+                <i class="start-quote fas fa-quote-left"></i>
+                <div id="quotes"></div>
+                <div id="author"></div>
+                <p id="quotes"  class="quotes"></p>
+                <p id="author" class="author"></p>
+            </div>
+            <label class="button">
+                <button id="newq">New Quotes</button>
+            </label>
+            </div>
+           
+        </div>
+    </div>
+
+
+     <script>
+        const quotes = document.getElementById('quotes');
+        const author = document.getElementById('author');
+        const newq = document.getElementById('newq');
+        let realData="";
+        let quotesData="";
+         const getNewQuotes= () =>{
+            let rnum=Math.floor(Math.random()*10);
+            quotesData= realData[rnum];
+            // console.log(realData[rnum].author);
+            quotes.innerText=`${quotesData.text}`;  
+            quotesData.author=null ? 
+            (author.innerText="Unknown"):
+            (author.innerText=`${quotesData.author}`);  
+
+         };
+        const getQuotes = async () =>{
+        const api="https://type.fit/api/quotes";
+        try {
+            let data = await fetch(api);
+            realData = await data.json();
+            getNewQuotes();
+            // realData= await data.json();
+            // console.log(realData);
+        } catch (error) {
+            
+        }
+    
+    
+    };
+        newq.addEventListener("click",getNewQuotes);
+        getQuotes();
+     </script>
+    </body>
+    </html>
